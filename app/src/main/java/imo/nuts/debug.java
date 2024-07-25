@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import java.io.InputStream;
 
-public class DebugActivity extends Activity {
+public class debug extends Activity {
 	String[] exceptionType = {
 			"StringIndexOutOfBoundsException",
 			"IndexOutOfBoundsException",
