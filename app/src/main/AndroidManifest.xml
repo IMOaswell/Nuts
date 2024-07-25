@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
        android:largeHeap="true"
-		android:name=".Applications"
+		android:name=".app"
         android:resizeableActivity="true">
 
         <activity
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-	       android:name=".DebugActivity"
+	       android:name=".debug"
        	   android:screenOrientation="portrait"/>
 
         <meta-data

@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-public class Applications extends Application {
+public class app extends Application {
 	private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
 	@Override
 	public void onCreate() {
@@ -18,7 +18,7 @@ public class Applications extends Application {
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread thread, Throwable ex) {
-				Intent intent = new Intent(getApplicationContext(), DebugActivity.class);
+				Intent intent = new Intent(getApplicationContext(), debug.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				intent.putExtra("error", getStackTrace(ex));
 				PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 11111, intent, PendingIntent.FLAG_ONE_SHOT);
