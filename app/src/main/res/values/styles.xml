@@ -9,7 +9,5 @@
         <item name="android:navigationBarColor">@color/primary</item>
         <item name="android:statusBarColor">@color/primary</item>
         <item name="android:windowBackground">@color/primary</item>
-        <item name="android:textColor">@color/text_color</item>
-        <item name="android:textColorHint">@color/text_color_hint</item>
 	</style>
 </resources>

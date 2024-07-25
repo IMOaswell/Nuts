@@ -4,6 +4,4 @@
     <color name="secondary">#303030</color>
     <color name="highlight">#627CBA</color>
     <color name="primary_dark">#000000</color>
-    <color name="text_color">#FFFFFF</color>
-    <color name="text_color_hint">#7FFFFFFF</color>
 </resources>
