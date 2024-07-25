@@ -1,11 +1,6 @@
 package imo.nuts;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,21 +25,6 @@ public class MainActivity extends Activity {
         CrashHandler.getInstance().init(this);
         setContentView(R.layout.activity_main);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Permission needed")
-                    .setMessage("We need storage access to collect crash logs.\nCrash logs will be placed under /sdcard/#Logs/\nIf you do not want to save crash logs, feel free to deny the permission request.\nClick 'Permit' to start the request.")
-                    .setPositiveButton("Permit", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            MainActivity.this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 9998);
-                        }
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .setCancelable(false)
-                    .show();
-
-        }
         S5droidAutoComplete.init(this);
         editor = findViewById(R.id.editor);
         panel = findViewById(R.id.search_panel);
