@@ -16,28 +16,25 @@
 package io.github.rosemoe.editor.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.lang.Thread.UncaughtExceptionHandler;
 
-import android.content.pm.PackageManager.NameNotFoundException;
-
+import imo.nuts.debug;
 /**
  * @author Unknown
  */
@@ -50,8 +47,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private static CrashHandler INSTANCE = new CrashHandler();
     private Context mContext;
     private Map<String, String> infos = new LinkedHashMap<>();
-
-    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
     private CrashHandler() {
     }
@@ -78,7 +73,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             return false;
         }
         collectDeviceInfo(mContext);
-        saveCrashInfo2File(ex);
+        displayCrashToDebugActivity(ex);
         return true;
     }
 
@@ -125,8 +120,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         }
     }
 
-    private void saveCrashInfo2File(Throwable ex) {
-
+    private void displayCrashToDebugActivity(Throwable ex){
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> entry : infos.entrySet()) {
             String key = entry.getKey();
@@ -145,26 +139,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
         printWriter.close();
         String result = writer.toString();
         sb.append(result);
-        try {
-            long timestamp = System.currentTimeMillis();
-            String time = formatter.format(new Date());
-            String fileName = "crash-" + time + "-" + timestamp + ".log";
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                String path = "/sdcard/#Logs/";
-                File dir = new File(path);
-                if (!dir.exists())
-                    dir.mkdirs();
-
-                FileOutputStream fos = new FileOutputStream(path + fileName);
-//				FileOutputStream fos = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
-                fos.write(sb.toString().getBytes());
-                Log.e("crash", sb.toString());
-
-                fos.close();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "an error occurred while writing file...", e);
-        }
+        
+        Intent intent = new Intent(mContext, debug.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("error", sb.toString());
+        mContext.startActivity(intent);
     }
 }
 
