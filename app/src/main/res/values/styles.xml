@@ -3,8 +3,8 @@
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary</item>
-        <item name="android:colorAccent">@color/tertiary</item>
-        <item name="android:colorControlHighlight">@color/tertiary</item>
+        <!--<item name="android:colorAccent">@color/tertiary</item>-->
+        <!--<item name="android:colorControlHighlight">@color/tertiary</item>-->
 
         <item name="android:navigationBarColor">@color/primary</item>
         <item name="android:statusBarColor">@color/primary</item>
