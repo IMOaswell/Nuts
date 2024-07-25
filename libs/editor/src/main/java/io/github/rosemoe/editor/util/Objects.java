@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  *   Copyright 2020 Rosemoe
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +12,25 @@
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
- ******************************************************************************/
+ */
+package io.github.rosemoe.editor.util;
 
-include ':libs:language-universal'
-include ':libs:language-java'
-include ':libs:language-s5d'
-include ':libs:language-base'
-include ':libs:editor'
-include ':app'
-rootProject.name='CodeEditor'
+/**
+ * Compatible implementation of Objects
+ *
+ * @author Rose
+ */
+public class Objects {
+
+    /**
+     * If the value is null, throw a {@link NullPointerException}
+     * Otherwise, return the value
+     */
+    public static <T> T requireNonNull(T value) {
+        if (value == null) {
+            throw new NullPointerException();
+        }
+        return value;
+    }
+
+}

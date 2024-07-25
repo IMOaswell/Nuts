@@ -1,4 +1,4 @@
-/*******************************************************************************
+/*
  *   Copyright 2020 Rosemoe
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +12,20 @@
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
- ******************************************************************************/
+ */
+package io.github.rosemoe.editor.widget.edge;
 
-include ':libs:language-universal'
-include ':libs:language-java'
-include ':libs:language-s5d'
-include ':libs:language-base'
-include ':libs:editor'
-include ':app'
-rootProject.name='CodeEditor'
+import android.content.Context;
+import android.os.Build;
+
+public class EdgeEffectFactory {
+
+    public static EdgeEffect create(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return new PlatformEdgeEffect(context);
+        } else {
+            return new MaterialEdgeEffect();
+        }
+    }
+
+}

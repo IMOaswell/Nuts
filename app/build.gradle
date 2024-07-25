@@ -21,10 +21,10 @@ android {
 }
 
 dependencies {
-	api project(':language-universal')
-	api project(':language-s5d')
-	api project(':language-java')
-	api project(':language-base')
-	api project(':editor')
     implementation fileTree(dir: "libs", include: ["*.jar"])
+	api project(':libs:language-universal')
+	api project(':libs:language-s5d')
+	api project(':libs:language-java')
+	api project(':libs:language-base')
+	api project(':libs:editor')
 }
