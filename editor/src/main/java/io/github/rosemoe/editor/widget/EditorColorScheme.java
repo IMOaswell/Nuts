@@ -114,17 +114,15 @@ public final class EditorColorScheme {
                 color = 0xff3f51bf;
                 break;
             case LINE_NUMBER:
-                color = 0xff444444;
+                color = 0xaaffffff;
                 break;
             case LINE_NUMBER_BACKGROUND:
-                color = 0xffeeeeee;
-                break;
             case WHOLE_BACKGROUND:
                 color = 0;
                 break;
             case TEXT_NORMAL:
             case OPERATOR:
-                color = 0xff222222;
+                color = 0xffffffff;
                 break;
             case SELECTION_INSERT:
             case UNDERLINE:
