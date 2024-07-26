@@ -349,7 +349,7 @@ final class EditorTouchEventHandler implements GestureDetector.OnGestureListener
 
     @Override
     public void onLongPress(MotionEvent e) {
-        if (mEditor.getCursor().isSelected() || e.getPointerCount() != 1) {
+        if (/*mEditor.getCursor().isSelected() ||*/ e.getPointerCount() != 1) {
             return;
         }
         long res = mEditor.getPointPositionOnScreen(e.getX(), e.getY());
