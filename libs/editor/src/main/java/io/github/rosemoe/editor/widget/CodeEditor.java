@@ -75,8 +75,6 @@ import io.github.rosemoe.editor.text.SpanMapUpdater;
 import io.github.rosemoe.editor.text.TextAnalyzeResult;
 import io.github.rosemoe.editor.text.TextAnalyzer;
 import io.github.rosemoe.editor.util.IntPair;
-import io.github.rosemoe.editor.widget.edge.EdgeEffect;
-import io.github.rosemoe.editor.widget.edge.EdgeEffectFactory;
 
 /**
  * CodeEditor is a editor that can highlight text regions by doing basic syntax analyzing
@@ -200,8 +198,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     private ScaleGestureDetector mScaleDetector;
     private EditorInputConnection mConnection;
     private CursorAnchorInfo.Builder mAnchorInfoBuilder;
-    private EdgeEffect mVerticalEdgeGlow;
-    private EdgeEffect mHorizontalGlow;
     private ExtractedTextRequest mExtracting;
     private FormatThread mFormatThread;
     private EditorSearcher mSearcher;
@@ -475,8 +471,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         setFocusableInTouchMode(true);
         mConnection = new EditorInputConnection(this);
         mCompletionWindow = new EditorAutoCompleteWindow(this);
-        mVerticalEdgeGlow = EdgeEffectFactory.create(getContext());
-        mHorizontalGlow = EdgeEffectFactory.create(getContext());
         setEditorLanguage(null);
         setText(null);
         setTextActionMode(TextActionMode.ACTION_MODE);
@@ -861,8 +855,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         }
 
         drawScrollBars(canvas);
-        drawEdgeEffect(canvas);
-
+        
         /*long timeUsage = System.currentTimeMillis() - startTime;
           Log.d(LOG_TAG, "Draw view cost time:" + timeUsage + "ms");
         */
@@ -1292,59 +1285,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
     }
 
     /**
-     * Draw effect of edges
-     *
-     * @param canvas The canvas to draw
-     */
-    private void drawEdgeEffect(Canvas canvas) {
-        boolean postDraw = false;
-        if (!mVerticalEdgeGlow.isFinished()) {
-            boolean bottom = mEventHandler.topOrBottom;
-            if (bottom) {
-                canvas.save();
-                canvas.translate(-getMeasuredWidth(), getMeasuredHeight());
-                canvas.rotate(180, getMeasuredWidth(), 0);
-            }
-            postDraw = mVerticalEdgeGlow.draw(canvas);
-            if (bottom) {
-                canvas.restore();
-            }
-        }
-        if (isWordwrap()) {
-            mHorizontalGlow.finish();
-        }
-        if (!mHorizontalGlow.isFinished()) {
-            canvas.save();
-            boolean right = mEventHandler.leftOrRight;
-            if (right) {
-                canvas.rotate(90);
-                canvas.translate(0, -getMeasuredWidth());
-            } else {
-                canvas.translate(0, getMeasuredHeight());
-                canvas.rotate(-90);
-            }
-            postDraw = mHorizontalGlow.draw(canvas) || postDraw;
-            canvas.restore();
-        }
-        OverScroller scroller = getScroller();
-        if (scroller.isOverScrolled()) {
-            if (mVerticalEdgeGlow.isFinished() && (scroller.getCurrY() <= 0 || scroller.getCurrY() >= getScrollMaxY())) {
-                mEventHandler.topOrBottom = scroller.getCurrY() >= getScrollMaxY();
-                mVerticalEdgeGlow.onAbsorb((int) scroller.getCurrVelocity());
-                postDraw = true;
-            }
-            if (mHorizontalGlow.isFinished() && (scroller.getCurrX() <= 0 || scroller.getCurrX() >= getScrollMaxX())) {
-                mEventHandler.leftOrRight = scroller.getCurrX() >= getScrollMaxX();
-                mHorizontalGlow.onAbsorb((int) scroller.getCurrVelocity());
-                postDraw = true;
-            }
-        }
-        if (postDraw) {
-            postInvalidate();
-        }
-    }
-
-    /**
      * Draw a handle.
      * The handle can be insert handle,left handle or right handle
      *
@@ -1568,44 +1508,7 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             drawHandle(canvas, row, centerX, handle);
         }
     }
-
-    /**
-     * Get the color of EdgeEffect
-     *
-     * @return The color of EdgeEffect.
-     */
-    public int getEdgeEffectColor() {
-        return mVerticalEdgeGlow.getColor();
-    }
-
-    /**
-     * Set the color of EdgeEffect
-     *
-     * @param color The color of EdgeEffect
-     */
-    public void setEdgeEffectColor(int color) {
-        mVerticalEdgeGlow.setColor(color);
-        mHorizontalGlow.setColor(color);
-    }
-
-    /**
-     * Get EdgeEffect for vertical direction
-     *
-     * @return EdgeEffect
-     */
-    protected EdgeEffect getVerticalEdgeEffect() {
-        return mVerticalEdgeGlow;
-    }
-
-    /**
-     * Get EdgeEffect for horizontal direction
-     *
-     * @return EdgeEffect
-     */
-    protected EdgeEffect getHorizontalEdgeEffect() {
-        return mHorizontalGlow;
-    }
-
+    
     /**
      * Find the smallest code block that cursor is in
      *
@@ -3369,10 +3272,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
             res2 = mBasicDetector.onTouchEvent(event);
             res3 = mScaleDetector.onTouchEvent(event);
         }
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            mVerticalEdgeGlow.onRelease();
-            mHorizontalGlow.onRelease();
-        }
         return (res3 || res2 || res);
     }
 
@@ -3502,10 +3401,6 @@ public class CodeEditor extends View implements ContentListener, TextAnalyzer.Ca
         super.onSizeChanged(w, h, oldWidth, oldHeight);
         mViewRect.right = w;
         mViewRect.bottom = h;
-        getVerticalEdgeEffect().setSize(w, h);
-        getHorizontalEdgeEffect().setSize(h, w);
-        getVerticalEdgeEffect().finish();
-        getHorizontalEdgeEffect().finish();
         if (isWordwrap() && w != oldWidth) {
             createLayout();
         } else {
