@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorPrimaryDark">@color/primary</item>
-        <item name="android:colorAccent">@color/highlight</item>
-        <item name="android:colorControlHighlight">@color/highlight</item>
-
-        <item name="android:navigationBarColor">@color/primary</item>
-        <item name="android:statusBarColor">@color/primary</item>
-        <item name="android:windowBackground">@color/primary</item>
 	</style>
 </resources>
