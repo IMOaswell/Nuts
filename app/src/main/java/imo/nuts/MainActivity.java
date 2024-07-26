@@ -72,20 +72,6 @@ public class MainActivity extends Activity {
             getActionBar().setTitle(title);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.dialog_permission_title)
-                    .setMessage(R.string.dialog_permission_content)
-                    .setPositiveButton(R.string.dialog_permission_permit, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            MainActivity.this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 9998);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .setCancelable(false)
-                    .show();
-        }
         S5droidAutoComplete.init(this);
         editor = findViewById(R.id.editor);
         panel = findViewById(R.id.search_panel);
