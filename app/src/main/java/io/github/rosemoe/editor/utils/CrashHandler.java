@@ -16,30 +16,25 @@
 package io.github.rosemoe.editor.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.Thread.UncaughtExceptionHandler;
-
-import android.content.pm.PackageManager.NameNotFoundException;
 
 import imo.nuts.R;
+import imo.nuts.debug;
 
 /**
  * CrashHandler handles uncaught exceptions
@@ -75,7 +70,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     }
 
     private boolean handleException(Throwable ex) {
-        saveCrashInfo2File(ex);
+        displayCrashToDebugActivity(ex);
         // Save the world, hopefully
         if (Looper.myLooper() != null) {
             while (true) {
@@ -83,7 +78,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
                     Toast.makeText(mContext, R.string.err_crash_loop, Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 } catch (Throwable t) {
-                    saveCrashInfo2File(ex);
+                    displayCrashToDebugActivity(ex);
                 }
             }
         }
@@ -133,7 +128,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         }
     }
 
-    private void saveCrashInfo2File(Throwable ex) {
+    private void displayCrashToDebugActivity(Throwable ex) {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> entry : info.entrySet()) {
             String key = entry.getKey();
@@ -152,25 +147,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
         printWriter.close();
         String result = writer.toString();
         sb.append(result);
-        try {
-            long timestamp = System.currentTimeMillis();
-            String time = SimpleDateFormat.getDateTimeInstance().format(new Date());
-            String fileName = "crash-" + time + "-" + timestamp + ".log";
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                String path = Environment.getExternalStoragePublicDirectory("#Logs").getAbsolutePath();
-                File dir = new File(path);
-                if (!dir.exists())
-                    dir.mkdirs();
-
-                FileOutputStream fos = new FileOutputStream(new File(path, fileName));
-                fos.write(sb.toString().getBytes());
-                Log.e("crash", sb.toString());
-
-                fos.close();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "an error occurred while writing file...", e);
-        }
+        
+        Intent intent = new Intent(mContext, debug.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("error", sb.toString());
+        mContext.startActivity(intent);
     }
 }
 
