@@ -13,7 +13,7 @@ an android code editor, compatible with AIDE :D
 > this repo may have come in contact or contain peanuts
 
 # feats
-- uses [Rosemoe's sora-editor version 0.3.0](https://github.com/Rosemoe/sora-editor/tree/0.3.0) library that I ported to AIDE:D
+uses [Rosemoe's sora-editor version 0.3.0](https://github.com/Rosemoe/sora-editor/tree/0.3.0) library that I ported to AIDE:D
 
 > thats pretty much it for now:v
 
@@ -35,15 +35,17 @@ an android code editor, compatible with AIDE :D
 </details>
 
 # if u wanna contribute
-- no androidx and appcompat
-- no java 8 or above
-- no stuffs only android studio supports
+no androidx and appcompat
+no java 8 or above
+no stuffs only android studio supports
 
 ### dont know how?
 > [!TIP]
 > make an [issue](https://github.com/IMOitself/Nuts/issues/new/choose), ill help u somehow:D
 
 ### project structure
+<details markdown='1'><summary>Expand / Collapse</summary>
+
 ``` bash
 app
 - src
@@ -61,6 +63,7 @@ app
 assets   # not connected to project
 libs   # connected using build.gradle
 ```
+</details>
 
 ### commit message guides i use
 <details markdown='1'><summary>Expand / Collapse</summary>
