@@ -18,16 +18,21 @@ an android code editor, compatible with AIDE :D
 > thats pretty much it for now:v
 
 ### feats i wanna add
+
+<details markdown='1'><summary>Expand / Collapse</summary>
+
 - code editor
-- [ ```fold code blocks``` ]
+- ```fold code blocks```
 - file manager 
-- [ ```all the basic file managing system plus...``` ```file lists ui like github,``` ```navigate folders as u type the path,``` ```view md files directly on file lists``` ]
+- ```all the basic file managing system plus...``` ```file lists ui like github,``` ```navigate folders as u type the path,``` ```view md files directly on file lists```
 - git system
--[  ```ui for git status,``` ```view staged and unstaged diffs,``` ```list commits,``` ```view commit diffs,``` ```and maybe a terminal ``` ]
+-```ui for git status,``` ```view staged and unstaged diffs,``` ```list commits,``` ```view commit diffs,``` ```and maybe a terminal ```
 - project management
-- [ ```connect different files together in a directory ``` ]
+- ```connect different files together in a directory ```
 - interpreter
-- [ ```translate java lambda to lower java versions``` ]
+- ```translate java lambda to lower java versions```
+
+</details>
 
 # if u wanna contribute
 - no androidx and appcompat
