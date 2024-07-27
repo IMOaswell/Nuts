@@ -21,13 +21,13 @@ an android code editor, compatible with AIDE :D
 - code editor
 - [ ```fold code blocks``` ]
 - file manager 
-- ```[ all the basic file managing system plus... file lists ui like github, navigate folders as u type the path, view md files directly on gile lists ]```
+- [ ```all the basic file managing system plus...``` ```file lists ui like github,``` ```navigate folders as u type the path,``` ```view md files directly on file lists``` ]
 - git system
-- ```[ ui for git status, view staged and unstaged diffs, list commits, view commit diffs, and maybe a terminal ]```
+-[  ```ui for git status,``` ```view staged and unstaged diffs,``` ```list commits,``` ```view commit diffs,``` ```and maybe a terminal ``` ]
 - project management
-- ```[ connect different files together in a directory ]```
+- [ ```connect different files together in a directory ``` ]
 - interpreter
-- ```[ translate java lambda to lower java versions ]```
+- [ ```translate java lambda to lower java versions``` ]
 
 # if u wanna contribute
 - no androidx and appcompat
@@ -35,10 +35,30 @@ an android code editor, compatible with AIDE :D
 - no stuffs only android studio supports
 
 ### dont know how?
-make an [issue](https://github.com/IMOitself/Nuts/issues/new/choose), ill help u somehow:D
+> [!TIP]
+> make an [issue](https://github.com/IMOitself/Nuts/issues/new/choose), ill help u somehow:D
+
+### project structure
+``` bash
+app
+- src
+  - main
+    - java
+      - imo
+        - nuts
+          - app.java # handles crash
+          - debug.java # handles crash
+          - MainActivity.java
+    - res
+    - AndroidManifest.xml
+
+
+assets   # not connected to project
+libs   # connected using build.gradle
+```
 
 ### commit message guides i use
-maybe add this to ur commit message
+<details markdown='1'><summary>Expand / Collapse</summary>
 
 prefixes:
   - `feat:` add, remove or improve a feature
@@ -64,4 +84,6 @@ prefixes:
  i might also use other prefixes like `docs:`, `style:`, `test:` <br>
  but for the sake of simplicity i mainly use those:D
 
+
+</details>
 
