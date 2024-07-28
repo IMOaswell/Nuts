@@ -18,7 +18,6 @@ package io.github.rosemoe.editor.text;
 import android.text.GetChars;
 import android.text.TextUtils;
 
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class ContentLine implements CharSequence, GetChars {
@@ -38,11 +37,6 @@ public class ContentLine implements CharSequence, GetChars {
 
     private int length;
 
-    /**
-     * Index of text line break
-     */
-    private List<Integer> breakList;
-    
     /**
       * Id in BinaryHeap
       */

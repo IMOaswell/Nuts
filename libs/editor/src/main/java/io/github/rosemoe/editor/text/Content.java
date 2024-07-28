@@ -62,7 +62,7 @@ public class Content implements CharSequence {
      */
     public static void setInitialLineCapacity(int capacity) {
         if (capacity <= 0) {
-            throw new IllegalArgumentException("capacity can not be under or equal zero");
+            throw new IllegalArgumentException("capacity can not be negative or zero");
         }
         sInitialListCapacity = capacity;
     }
@@ -159,7 +159,8 @@ public class Content implements CharSequence {
     }
 
     /**
-     * Get raw data line
+     * Get raw data of line
+     * The result is not expected to be modified
      *
      * @param line Line
      * @return Raw ContentLine used by Content
@@ -167,18 +168,7 @@ public class Content implements CharSequence {
     public ContentLine getLine(int line) {
         return mLines.get(line);
     }
-
-    /**
-     * Get character of given line
-     *
-     * @param dest Destination array
-     * @param line Requested line
-     */
-    public void copyChars(char[] dest, int line) {
-        ContentLine lineStr = mLines.get(line);
-        lineStr.getChars(0, lineStr.length(), dest, 0);
-    }
-
+    
     /**
      * Get how many lines there are
      *
@@ -211,6 +201,9 @@ public class Content implements CharSequence {
         return mLines.get(line).toString();
     }
 
+    /**
+     * Get characters of line
+     */
     public void getLineChars(int line, char[] dest) {
         mLines.get(line).getChars(0, getColumnCount(line), dest, 0);
     }
@@ -775,128 +768,4 @@ public class Content implements CharSequence {
                     "Column " + column + " out of bounds.line: " + line + " ,column count:" + len);
         }
     }
-
-    //The following methods works on higher Android API with language level 8
-    //AIDE does not support this and if we copy default implementation code with some modification, it does not works as well.
-    //So we had to add a empty implementation
-/*
-    @Override
-    @TargetApi(24)
-    public IntStream chars() {
-        return StreamSupport.intStream(new Supplier<Spliterator.OfInt>() {
-                                           @Override
-                                           public Spliterator.OfInt get() {
-                                               return Spliterators.spliterator(
-                                                       new CharIterator(),
-                                                       Content.this.length(),
-                                                       Spliterator.ORDERED);
-                                           }
-                                       },
-                Spliterator.SUBSIZED | Spliterator.SIZED | Spliterator.ORDERED,
-                false);
-    }
-
-    @Override
-    @TargetApi(24)
-    public IntStream codePoints() {
-        return StreamSupport.intStream(new Supplier<Spliterator.OfInt>() {
-                                           @Override
-                                           public Spliterator.OfInt get() {
-                                               return Spliterators.spliteratorUnknownSize(
-                                                       new CodePointIterator(),
-                                                       Spliterator.ORDERED);
-                                           }
-                                       },
-                Spliterator.ORDERED,
-                false);
-    }
-
-    @TargetApi(Build.VERSION_CODES.N)
-    class CharIterator implements PrimitiveIterator.OfInt {
-        int cur = 0;
-
-        @Override
-        public boolean hasNext() {
-            return cur < length();
-        }
-
-        @Override
-        public Integer next() {
-            return nextInt();
-        }
-
-        @Override
-        public int nextInt() {
-            if (hasNext()) {
-                return charAt(cur++);
-            } else {
-                throw new NoSuchElementException();
-            }
-        }
-
-        @Override
-        public void forEachRemaining(IntConsumer block) {
-            for (; cur < length(); cur++) {
-                block.accept(charAt(cur));
-            }
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.N)
-    class CodePointIterator implements PrimitiveIterator.OfInt {
-        int cur = 0;
-
-        @Override
-        public void forEachRemaining(IntConsumer block) {
-            final int length = length();
-            int i = cur;
-            try {
-                while (i < length) {
-                    char c1 = charAt(i++);
-                    if (!Character.isHighSurrogate(c1) || i >= length) {
-                        block.accept(c1);
-                    } else {
-                        char c2 = charAt(i);
-                        if (Character.isLowSurrogate(c2)) {
-                            i++;
-                            block.accept(Character.toCodePoint(c1, c2));
-                        } else {
-                            block.accept(c1);
-                        }
-                    }
-                }
-            } finally {
-                cur = i;
-            }
-        }
-
-        @Override
-        public Integer next() {
-            return nextInt();
-        }
-
-        @Override
-        public boolean hasNext() {
-            return cur < length();
-        }
-
-        @Override
-        public int nextInt() {
-            final int length = length();
-
-            if (cur >= length) {
-                throw new NoSuchElementException();
-            }
-            char c1 = charAt(cur++);
-            if (Character.isHighSurrogate(c1) && cur < length) {
-                char c2 = charAt(cur);
-                if (Character.isLowSurrogate(c2)) {
-                    cur++;
-                    return Character.toCodePoint(c1, c2);
-                }
-            }
-            return c1;
-        }
-    }*/
-
 }

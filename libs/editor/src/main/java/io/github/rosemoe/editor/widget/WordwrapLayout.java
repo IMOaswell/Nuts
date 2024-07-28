@@ -175,6 +175,7 @@ class WordwrapLayout extends AbstractLayout {
     @Override
     public void destroyLayout() {
         super.destroyLayout();
+        rowTable.clear();
     }
 
     @Override
@@ -235,23 +236,20 @@ class WordwrapLayout extends AbstractLayout {
     static class RowRegion {
 
         int line;
-
-        int startColumn;
-
-        int endColumn;
+        final int startColumn;
+        final int endColumn;
 
         RowRegion(int line, int start, int end) {
             this.line = line;
             startColumn = start;
             endColumn = end;
         }
-
     }
 
     class WordwrapLayoutRowItr implements RowIterator {
 
         int currentRow;
-        Row result;
+        final Row result;
 
         WordwrapLayoutRowItr(int initialRow) {
             currentRow = initialRow;
@@ -276,7 +274,6 @@ class WordwrapLayout extends AbstractLayout {
         public boolean hasNext() {
             return currentRow >= 0 && currentRow < rowTable.size();
         }
-
     }
 
 }

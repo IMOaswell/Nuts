@@ -70,6 +70,9 @@ public class TextAnalyzer {
         mCallback = cb;
     }
 
+    /**
+     * Stop the text analyzer
+     */
     public void shutdown() {
         final AnalyzeThread thread = mThread;
         if (thread != null && thread.isAlive()) {
@@ -108,9 +111,20 @@ public class TextAnalyzer {
         return mResult;
     }
 
+    /**
+     * Callback for text analyzing
+     *
+     * @author Rose
+     */
     public interface Callback {
 
-        void onAnalyzeDone(TextAnalyzer provider);
+        /**
+         * Called when analyze result is available
+         * Count of calling this method is not always equal to the count you call {@link TextAnalyzer#analyze(Content)}
+         *
+         * @param analyzer Host TextAnalyzer
+         */
+        void onAnalyzeDone(TextAnalyzer analyzer);
 
     }
 
